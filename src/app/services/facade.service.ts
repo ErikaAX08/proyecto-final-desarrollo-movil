@@ -8,10 +8,10 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
-//Estas son variables para las cookies
+// Estas son variables para las cookies
 const session_cookie_name = 'app-movil-escolar-token';
 const user_email_cookie_name = 'app-movil-escolar-email';
 const user_id_cookie_name = 'app-movil-escolar-user_id';
@@ -20,115 +20,197 @@ const group_name_cookie_name = 'app-movil-escolar-group_name';
 const codigo_cookie_name = 'app-movil-escolar-codigo';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FacadeService {
-
   constructor(
     private http: HttpClient,
     public router: Router,
     private cookieService: CookieService,
     private validatorService: ValidatorService,
-    private errorService: ErrorsService,
+    private errorService: ErrorsService
+  ) {}
 
-  ) { }
-
-  //Funcion para validar login
-  public validarLogin(username: String, password: String){
+  // Funcion para validar login
+  public validarLogin(username: String, password: String) {
     let data = {
-      "username": username,
-      "password": password
+      username: username,
+      password: password,
     };
-    console.log("Valindando login con datos: ", data);
+    console.log('Validando login con datos: ', data);
 
     let error: any = {};
 
-    if(!this.validatorService.required(data["username"])){
-      error["username"] = this.errorService.required;
-    }else if(!this.validatorService.max(data["username"], 40)){
-      error["username"] = this.errorService.max(40);
-    }else if (!this.validatorService.email(data['username'])) {
+    if (!this.validatorService.required(data['username'])) {
+      error['username'] = this.errorService.required;
+    } else if (!this.validatorService.max(data['username'], 40)) {
+      error['username'] = this.errorService.max(40);
+    } else if (!this.validatorService.email(data['username'])) {
       error['username'] = this.errorService.email;
     }
 
-    if(!this.validatorService.required(data["password"])){
-      error["password"] = this.errorService.required;
+    if (!this.validatorService.required(data['password'])) {
+      error['password'] = this.errorService.required;
     }
 
     return error;
-
   }
 
   // Llamada al API para el login
-  public login(username: String, password: String){
+  public login(username: String, password: String) {
     let data = {
-      "username": username,
-      "password": password
+      username: username,
+      password: password,
     };
-    return this.http.post<any>(`${environment.url_api}/login/`, data, httpOptions);
+    return this.http.post<any>(
+      `${environment.url_api}/login/`,
+      data,
+      httpOptions
+    );
   }
-  //Cerrar sesión
+
+  // Cerrar sesión
   public logout(): Observable<any> {
     let headers: any;
     let token = this.getSessionToken();
-    headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-    return this.http.get<any>(`${environment.url_api}/logout/`, {headers: headers});
+    headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Token ' + token,
+    });
+    return this.http.get<any>(`${environment.url_api}/logout/`, {
+      headers: headers,
+    });
   }
 
   // Funciones para utilizar las cookies en web
-  retrieveSignedUser(){
+  retrieveSignedUser() {
     var headers: any;
     var token = this.getSessionToken();
-    headers = new HttpHeaders({'Authorization': 'Bearer '+token});
-    return this.http.get<any>(`${environment.url_api}/me/`,{headers:headers});
+    headers = new HttpHeaders({
+      Authorization: 'Token ' + token,
+    });
+    return this.http.get<any>(`${environment.url_api}/me/`, {
+      headers: headers,
+    });
   }
 
-  getCookieValue(key:string){
+  getCookieValue(key: string) {
     return this.cookieService.get(key);
   }
 
-  saveCookieValue(key:string, value:string){
-    var secure = environment.url_api.indexOf("https")!=-1;
-    this.cookieService.set(key, value, undefined, undefined, undefined, secure, secure?"None":"Lax");
+  saveCookieValue(key: string, value: string) {
+    var secure = environment.url_api.indexOf('https') != -1;
+    this.cookieService.set(
+      key,
+      value,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
   }
 
-  getSessionToken(){
+  getSessionToken() {
     return this.cookieService.get(session_cookie_name);
   }
 
   saveUserData(user_data: any) {
-    var secure = environment.url_api.indexOf("https") !== -1;
+    console.log('=== GUARDANDO DATOS DEL USUARIO ===');
+    console.log('Datos recibidos:', user_data);
+
+    var secure = environment.url_api.indexOf('https') !== -1;
+
     // Soporta respuesta plana o anidada en 'user'
     let id = user_data.id || user_data.user?.id;
     let email = user_data.email || user_data.user?.email;
     let first_name = user_data.first_name || user_data.user?.first_name || '';
     let last_name = user_data.last_name || user_data.user?.last_name || '';
-    let name = (first_name + " " + last_name).trim();
-    this.cookieService.set(user_id_cookie_name, id, undefined, undefined, undefined, secure, secure ? "None" : "Lax");
-    this.cookieService.set(user_email_cookie_name, email, undefined, undefined, undefined, secure, secure ? "None" : "Lax");
-    this.cookieService.set(user_complete_name_cookie_name, name, undefined, undefined, undefined, secure, secure ? "None" : "Lax");
-    this.cookieService.set(session_cookie_name, user_data.token, undefined, undefined, undefined, secure, secure ? "None" : "Lax");
-    this.cookieService.set(group_name_cookie_name, user_data.rol, undefined, undefined, undefined, secure, secure ? "None" : "Lax");
+    let name = (first_name + ' ' + last_name).trim();
+    let rol = user_data.rol || user_data.group || '';
+
+    console.log('ID:', id);
+    console.log('Email:', email);
+    console.log('Nombre completo:', name);
+    console.log('Rol:', rol);
+    console.log('Token:', user_data.token ? '✅ Existe' : '❌ No existe');
+
+    // Guardar cookies
+    this.cookieService.set(
+      user_id_cookie_name,
+      id,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
+    this.cookieService.set(
+      user_email_cookie_name,
+      email,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
+    this.cookieService.set(
+      user_complete_name_cookie_name,
+      name,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
+    this.cookieService.set(
+      session_cookie_name,
+      user_data.token,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
+
+    // Normalizar el rol antes de guardarlo
+    if (rol) {
+      rol = rol.trim().toLowerCase();
+      console.log('Rol normalizado:', rol);
+    } else {
+      console.warn('⚠️ No se recibió el rol del usuario');
+    }
+
+    this.cookieService.set(
+      group_name_cookie_name,
+      rol,
+      undefined,
+      undefined,
+      undefined,
+      secure,
+      secure ? 'None' : 'Lax'
+    );
   }
 
-  destroyUser(){
+  destroyUser() {
     this.cookieService.deleteAll();
   }
 
-  getUserEmail(){
+  getUserEmail() {
     return this.cookieService.get(user_email_cookie_name);
   }
 
-  getUserCompleteName(){
+  getUserCompleteName() {
     return this.cookieService.get(user_complete_name_cookie_name);
   }
 
-  getUserId(){
+  getUserId() {
     return this.cookieService.get(user_id_cookie_name);
   }
 
-  getUserGroup(){
-    return this.cookieService.get(group_name_cookie_name);
+  getUserGroup() {
+    const rol = this.cookieService.get(group_name_cookie_name);
+    console.log('getUserGroup() retorna:', rol);
+    return rol;
   }
-
 }
