@@ -11,6 +11,7 @@ export class SidebarComponent implements OnInit {
   mobileOpen = false;
   isMobileView = window.innerWidth < 900;
   userRole: string = '';
+  eventosMenuOpen = false; // Variable para controlar el dropdown de eventos
 
   constructor(private router: Router, private facadeService: FacadeService) {}
 
@@ -153,5 +154,10 @@ export class SidebarComponent implements OnInit {
 
   canSeeRegisterItem(): boolean {
     return this.isAdmin() || this.isTeacher();
+  }
+
+  // Toggle para el menú de eventos académicos
+  toggleEventosMenu(): void {
+    this.eventosMenuOpen = !this.eventosMenuOpen;
   }
 }

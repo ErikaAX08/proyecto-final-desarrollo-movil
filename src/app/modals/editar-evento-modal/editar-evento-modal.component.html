@@ -1,0 +1,19 @@
+<div class="editar-modal">
+  <div class="modal-header">
+    <h2>Confirmar Edición</h2>
+  </div>
+
+  <div class="modal-content">
+    <p>¿Estás seguro de que deseas editar el evento con ID: <strong>{{ data.id }}</strong>?</p>
+    <p>Serás redirigido al formulario de registro.</p>
+  </div>
+
+  <div class="modal-actions">
+    <button mat-raised-button class="btn-cancel" (click)="cerrarDialogo()">
+      Cancelar
+    </button>
+    <button mat-raised-button class="btn-confirm" color="primary" (click)="confirmar()">
+      Editar
+    </button>
+  </div>
+</div>

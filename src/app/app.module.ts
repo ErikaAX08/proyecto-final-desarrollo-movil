@@ -15,22 +15,25 @@ import { RegistroAlumnosComponent } from './partials/registro-alumnos/registro-a
 import { RegistroMaestrosComponent } from './partials/registro-maestros/registro-maestros.component';
 
 //Angular Material
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
-import {MatTableModule} from '@angular/material/table';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatSortModule} from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
 
 // Paginación
-import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 //Para el paginator en español
 import { getSpanishPaginatorIntl } from './shared/spanish-paginator-intl';
 // IMPORTANTE: añade el módulo de Sidenav
@@ -51,6 +54,13 @@ import { SidebarComponent } from './partials/sidebar/sidebar.component';
 import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
 import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
 
+// IMPORTACIONES PARA EVENTOS ACADEMICOS
+
+import { RegistroEventoComponent } from './partials/registro-evento/registro-evento.component';
+import { ListaEventosComponent } from './screens/eventos-screen/lista-eventos.component';
+import { EliminarEventoModalComponent } from './modals/eliminar-evento-modal/eliminar-evento-modal.component';
+import { EditarEventoModalComponent } from './modals/editar-evento-modal/editar-evento-modal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +78,13 @@ import { GraficasScreenComponent } from './screens/graficas-screen/graficas-scre
     NavbarUserComponent,
     SidebarComponent,
     EliminarUserModalComponent,
-    GraficasScreenComponent
+    GraficasScreenComponent,
+
+    // EVENTOS
+    RegistroEventoComponent,
+    ListaEventosComponent,
+    EliminarEventoModalComponent,
+    EditarEventoModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,14 +108,14 @@ import { GraficasScreenComponent } from './screens/graficas-screen/graficas-scre
     MatSortModule,
     MatSidenavModule,
     MatDialogModule,
-    NgChartsModule
+    NgChartsModule,
   ],
   providers: [
     CookieService,
     { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
-    provideNgxMask()
+    provideNgxMask(),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

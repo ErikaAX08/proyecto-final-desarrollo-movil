@@ -1,0 +1,91 @@
+/* ==================================== */
+/* Estilos Globales del Contenedor Modal */
+/* ==================================== */
+
+// El componente principal del modal
+:host {
+  display: block;
+  padding: 15px;
+  background-color: #f7f7f7; // Fondo ligero para contraste
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================================== */
+/* Encabezado y Contenido */
+/* ==================================== */
+
+.modal-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-size: 1.5em;
+    color: #3f51b5; // Color primario de Material (azul)
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.modal-content {
+  p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 20px;
+  }
+}
+
+/* ==================================== */
+/* Pie de Página y Botones */
+/* ==================================== */
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; // Botones a la derecha
+  gap: 10px; // Espacio entre botones
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+
+  // Estilos generales para botones de Material
+  button.mat-raised-button {
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0 16px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 4px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  // Estilo para el botón de acción principal (Editar/Eliminar)
+  .btn-confirm {
+    background-color: #f44336; /* Rojo para Eliminar */
+    color: white;
+
+    // Si es el modal de Edición, usa un color primario (azul)
+    .editar-modal & {
+        background-color: #3f51b5;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // Estilo para el botón de cancelar
+  .btn-cancel {
+    background-color: #bdbdbd; // Gris
+    color: #424242;
+
+    &:hover {
+      background-color: #9e9e9e;
+    }
+  }
+}

@@ -9,6 +9,8 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
+import { RegistroEventoComponent } from './partials/registro-evento/registro-evento.component';
+import { ListaEventosComponent } from './screens/eventos-screen/lista-eventos.component';
 
 const routes: Routes = [
   {
@@ -18,8 +20,11 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginScreenComponent },
       { path: 'registro-usuarios', component: RegistroUsuariosScreenComponent },
-      { path: 'registro-usuarios/:rol/:id', component: RegistroUsuariosScreenComponent },
-    ]
+      {
+        path: 'registro-usuarios/:rol/:id',
+        component: RegistroUsuariosScreenComponent,
+      },
+    ],
   },
   {
     path: '',
@@ -29,15 +34,27 @@ const routes: Routes = [
       { path: 'administrador', component: AdminScreenComponent }, // Keep legacy route
       { path: 'alumnos', component: AlumnosScreenComponent },
       { path: 'maestros', component: MaestrosScreenComponent },
-      { path: 'graficas', component: GraficasScreenComponent }
-    ]
+      { path: 'graficas', component: GraficasScreenComponent },
+      {
+        path: 'registro-evento',
+        component: RegistroEventoComponent,
+      },
+      {
+        path: 'registro-evento/:id',
+        component: RegistroEventoComponent,
+      },
+      {
+        path: 'eventos-academicos',
+        component: ListaEventosComponent,
+      },
+    ],
   },
   // fallback route
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

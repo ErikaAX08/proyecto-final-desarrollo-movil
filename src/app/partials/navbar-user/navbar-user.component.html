@@ -48,7 +48,7 @@
         <span>Gráficas</span>
       </li>
       <li
-        *ngIf="canSeeTeacherItems()"
+        *ngIf="isTeacher()"
         routerLink="/materias"
         routerLinkActive="active"
         class="scoop-navbar-item"

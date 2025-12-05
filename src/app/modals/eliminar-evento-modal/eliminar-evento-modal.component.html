@@ -1,0 +1,19 @@
+<div class="eliminar-modal">
+  <div class="modal-header">
+    <h2>Confirmar Eliminación</h2>
+  </div>
+
+  <div class="modal-content">
+    <p>Esta acción es irreversible.</p>
+    <p>¿Estás seguro de que deseas **eliminar permanentemente** el evento con ID: <strong>{{ data.id }}</strong>?</p>
+  </div>
+
+  <div class="modal-actions">
+    <button mat-raised-button class="btn-cancel" (click)="cerrarDialogo()">
+      Cancelar
+    </button>
+    <button mat-raised-button class="btn-confirm" color="warn" (click)="eliminarEvento()">
+      Eliminar
+    </button>
+  </div>
+</div>
