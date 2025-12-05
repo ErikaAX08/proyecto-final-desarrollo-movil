@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  url_api: "https://proyecto-final-desarrollo-movil-back.onrender.com"
+  url_api: "http://127.0.0.1:8000"
 };

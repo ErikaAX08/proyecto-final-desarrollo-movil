@@ -41,7 +41,7 @@ export class ListaEventosComponent implements OnInit {
   ngOnInit(): void {
     // Obtener información del usuario
     this.name_user = this.facadeService.getUserCompleteName();
-    this.rol = this.facadeService.getUserGroup(); // <-- Usando getUserGroup()
+    this.rol = this.facadeService.getUserGroup();
 
     // Validar que haya inicio de sesión
     this.token = this.facadeService.getSessionToken();
