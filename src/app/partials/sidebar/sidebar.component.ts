@@ -5,21 +5,40 @@ import { FacadeService } from 'src/app/services/facade.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
   mobileOpen = false;
   isMobileView = window.innerWidth < 900;
   userRole: string = '';
 
-  constructor(
-    private router: Router,
-    private facadeService: FacadeService
-  ) { }
+  constructor(private router: Router, private facadeService: FacadeService) {}
 
   ngOnInit(): void {
+    this.loadUserRole();
+  }
+
+  // Método para cargar y verificar el rol del usuario
+  private loadUserRole(): void {
     this.userRole = this.facadeService.getUserGroup();
-    console.log('User role in sidebar:', this.userRole);
+
+    // Si no hay rol, verificar si hay sesión
+    if (!this.userRole || this.userRole === '') {
+      console.warn('⚠️ No se encontró el rol del usuario');
+      const token = this.facadeService.getSessionToken();
+
+      if (token) {
+        console.warn(
+          '⚠️ Hay token pero no hay rol. Esto puede ser un problema en el login.'
+        );
+        console.log(
+          '💡 Tip: Verifica que el backend esté enviando el campo "rol" en la respuesta del login'
+        );
+      } else {
+        console.error('❌ No hay sesión activa, redirigiendo al login...');
+        this.router.navigate(['/login']);
+      }
+    }
   }
 
   @HostListener('window:resize')
@@ -35,20 +54,24 @@ export class SidebarComponent implements OnInit {
   }
 
   closeSidebar() {
-    this.mobileOpen = false;
+    if (this.isMobileView) {
+      this.mobileOpen = false;
+    }
   }
 
   logout() {
+    console.log('🚪 Iniciando logout...');
     this.facadeService.logout().subscribe(
       (response) => {
-        console.log('Logout successful');
+        console.log('✅ Logout exitoso en el servidor:', response);
         this.facadeService.destroyUser();
         this.router.navigate(['/login']);
         this.closeSidebar();
       },
       (error) => {
-        console.error('Logout error:', error);
+        console.error('❌ Error en logout del servidor:', error);
         // Fallback: clear local data and navigate anyway
+        console.log('⚠️ Limpiando datos locales de todas formas...');
         this.facadeService.destroyUser();
         this.router.navigate(['/login']);
         this.closeSidebar();
@@ -58,15 +81,54 @@ export class SidebarComponent implements OnInit {
 
   // Helper methods to check user roles
   isAdmin(): boolean {
-    return this.userRole === 'administrador';
+    if (!this.userRole) {
+      console.log('isAdmin(): No hay rol definido');
+      return false;
+    }
+
+    // Normalizar el rol para evitar problemas con espacios o mayúsculas
+    const normalizedRole = this.userRole.trim().toLowerCase();
+    const isAdminRole =
+      normalizedRole === 'administrador' || normalizedRole === 'admin';
+
+    console.log(
+      `isAdmin(): "${this.userRole}" (normalizado: "${normalizedRole}") -> ${isAdminRole}`
+    );
+    return isAdminRole;
   }
 
   isTeacher(): boolean {
-    return this.userRole === 'maestro';
+    if (!this.userRole) {
+      console.log('isTeacher(): No hay rol definido');
+      return false;
+    }
+
+    // Normalizar el rol para evitar problemas con espacios o mayúsculas
+    const normalizedRole = this.userRole.trim().toLowerCase();
+    const isTeacherRole =
+      normalizedRole === 'maestro' || normalizedRole === 'teacher';
+
+    console.log(
+      `isTeacher(): "${this.userRole}" (normalizado: "${normalizedRole}") -> ${isTeacherRole}`
+    );
+    return isTeacherRole;
   }
 
   isStudent(): boolean {
-    return this.userRole === 'alumno';
+    if (!this.userRole) {
+      console.log('isStudent(): No hay rol definido');
+      return false;
+    }
+
+    // Normalizar el rol para evitar problemas con espacios o mayúsculas
+    const normalizedRole = this.userRole.trim().toLowerCase();
+    const isStudentRole =
+      normalizedRole === 'alumno' || normalizedRole === 'student';
+
+    console.log(
+      `isStudent(): "${this.userRole}" (normalizado: "${normalizedRole}") -> ${isStudentRole}`
+    );
+    return isStudentRole;
   }
 
   // Check if user can see admin-only items
