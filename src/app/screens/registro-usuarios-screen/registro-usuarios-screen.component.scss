@@ -2,7 +2,7 @@
   margin: 0;
   min-height: 100vh;
   width: 100%;
-  background-image: url('/assets/images/fondo-azul.jpg');
+  background-image: url("/assets/images/fondo-azul.jpg");
   background-position: center;
   background-size: cover;
   background-position: center;
@@ -10,8 +10,8 @@
 }
 
 body {
-  padding: 0!important;
-  margin: 0!important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .reg-shell {
@@ -45,15 +45,22 @@ body {
     width: 100%;
   }
 
-
   .role-row {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 12px 20px;
     margin-top: 12px;
+  }
+
+  mat-radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .role-pill {
@@ -112,7 +119,7 @@ body {
 /* Contenedor con el mismo ancho que .role-card y .forms-area */
 .actions-row {
   //width: min(100%, 980px);
-  margin: 8px auto 0;       /* centra el contenedor como la card */
+  margin: 8px auto 0; /* centra el contenedor como la card */
   display: flex;
   justify-content: flex-end; /* botón a la derecha */
 }
@@ -122,9 +129,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  text-transform: none;     /* no todo en mayúsculas */
+  text-transform: none; /* no todo en mayúsculas */
   font-weight: 500;
-  border-radius: 10px;      /* mismo radio suave */
+  border-radius: 10px; /* mismo radio suave */
   padding-inline: 14px;
 }
 
@@ -143,10 +150,10 @@ body {
 }
 
 .back-icon {
-  width: auto!important;
-  height: auto!important;
+  width: auto !important;
+  height: auto !important;
   font-size: 1.9rem;
-  color: #0092B8;
+  color: #0092b8;
 }
 
 /* =========================
@@ -154,7 +161,7 @@ body {
    ========================= */
 
 /* Estilo para el icono dentro del radio button */
-.mat-icon{
+.mat-icon {
   width: 100%;
   height: 100%;
 }
@@ -162,28 +169,28 @@ body {
 ::ng-deep .mat-mdc-radio-button mat-icon {
   text-align: center;
   font-size: 2.5rem; /* Tamaño del ícono */
-  color: #0092B8; /* Color del ícono */
+  color: #0092b8; /* Color del ícono */
   transition: color 0.3s ease; /* Suaviza el cambio de color */
 }
 
 /* Cambio de color del ícono cuando está seleccionado */
 ::ng-deep .mat-mdc-radio-button:hover mat-icon {
-  color: #0092B8; /* Color más oscuro en el ícono cuando se pasa el ratón */
+  color: #0092b8; /* Color más oscuro en el ícono cuando se pasa el ratón */
 }
 
 ::ng-deep .mat-mdc-radio-button .mdc-form-field {
-  color: #231F20;
+  color: #231f20;
   font-family: Nexa;
   font-size: 20px;
 }
 
 ::ng-deep .mat-mdc-radio-button.mat-accent {
-  --mdc-radio-selected-focus-icon-color: #0092B8;
-  --mdc-radio-selected-hover-icon-color: #0092B8;
-  --mdc-radio-selected-icon-color: #0092B8;
-  --mdc-radio-selected-pressed-icon-color: #0092B8;
+  --mdc-radio-selected-focus-icon-color: #0092b8;
+  --mdc-radio-selected-hover-icon-color: #0092b8;
+  --mdc-radio-selected-icon-color: #0092b8;
+  --mdc-radio-selected-pressed-icon-color: #0092b8;
   --mat-radio-ripple-color: #000;
-  --mat-radio-checked-ripple-color: #0092B8;
+  --mat-radio-checked-ripple-color: #0092b8;
 }
 
 ::ng-deep .mdc-radio {
@@ -194,9 +201,8 @@ body {
   width: auto;
   height: auto;
   cursor: pointer;
-  will-change: opacity,transform,border-color,color;
+  will-change: opacity, transform, border-color, color;
 }
-
 
 /* =========================
    Ajustes para la vista móvil (≤700px)
@@ -212,7 +218,7 @@ body {
   }
 
   .role-row {
-    flex-direction: row;  /* Alinea los radio buttons verticalmente */
+    flex-direction: row; /* Alinea los radio buttons verticalmente */
     gap: 10px;
   }
 
@@ -239,5 +245,4 @@ body {
   .mat-radio-button {
     font-size: 1rem;
   }
-
 }
